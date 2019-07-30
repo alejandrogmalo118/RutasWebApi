@@ -1,0 +1,22 @@
+﻿@model IEnumerable<RutasWebApi.Models.Ciudad>
+
+@{
+    ViewBag.Title = "Lista de ciudades";
+}
+
+<h2>Lista de Ciudades</h2>
+
+<table id="ciudades" class="display cell-border compact hover stripe order-column row-border">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.NombreCiudad)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.NombreCiudad)</td>
+        </tr>
+    }
+    </tbody>
+</table>

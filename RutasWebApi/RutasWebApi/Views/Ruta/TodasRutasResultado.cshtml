@@ -1,0 +1,39 @@
+﻿@model List<List<RutasWebApi.Models.Ruta>>
+
+@{
+    ViewBag.Title = "TodasRutasResultado";
+}
+
+<h2>TodasRutasResultado</h2>
+
+@foreach (var item in Model)
+{
+    <table class="table">
+        <tr>Ruta @Model.LastIndexOf(item)</tr>
+
+        @foreach (var id in item)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => id.Ciudad.NombreCiudad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => id.Ciudad1.NombreCiudad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => id.Km)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => id.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => id.Tiempo)
+                </td>
+
+            </tr>
+
+        }
+        <tr></tr>
+    </table>
+}
