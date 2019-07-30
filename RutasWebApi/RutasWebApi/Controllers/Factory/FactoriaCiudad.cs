@@ -27,7 +27,12 @@ namespace RutasWebApi.Controllers.Factory
         public override void CrearDato()
         {
             Ciudad nuevoDato = new Ciudad(Id, NombreCiudad);
-            Listas.CiudadesDisponibles.Add(nuevoDato);
+            
+            if(!Listas.CiudadesDisponibles.Exists(c => c.Id.Equals(nuevoDato.Id)))
+            {
+                Listas.CiudadesDisponibles.Add(nuevoDato);
+            }
+
         }
 
         public async override Task CrearDatos()

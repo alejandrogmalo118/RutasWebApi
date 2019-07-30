@@ -55,7 +55,11 @@ namespace RutasWebApi.Controllers.Factory
                 }
             }
 
-            Listas.RutasDisponibles.Add(nuevaRuta);
+            if (!Listas.RutasDisponibles.Exists(c => c.Id.Equals(nuevaRuta.Id)))
+            {
+                Listas.RutasDisponibles.Add(nuevaRuta);
+            }
+
         }
 
         public override async Task CrearDatos()
