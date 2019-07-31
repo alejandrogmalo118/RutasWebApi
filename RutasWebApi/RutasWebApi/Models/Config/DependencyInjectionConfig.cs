@@ -8,13 +8,13 @@ namespace RutasWebApi.Models.Config
     {
         public static IContainer RegistrarDependencias()
         {
-            var Builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
             //Builder.RegisterInstance(new CiudadRepositorio(new DBRutasEntities())).As<ICiudadRepositorio>();
-            Builder.RegisterGeneric(typeof(RepositorioGenerico<>)).As(typeof(IRepositorioGenerico<>));
+            builder.RegisterGeneric(typeof(RepositorioGenerico<>)).As(typeof(IRepositorioGenerico<>));
 
             // Registrar todos los controladores del ensamblado
-            Builder.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
-            return Builder.Build();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
+            return builder.Build();
         }
     }
 }

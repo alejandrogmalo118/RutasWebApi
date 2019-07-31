@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace RutasWebApi.Models.ModelJSON
+﻿namespace RutasWebApi.Models.ModelJSON
 {
     public class CiudadJsonModel
     {

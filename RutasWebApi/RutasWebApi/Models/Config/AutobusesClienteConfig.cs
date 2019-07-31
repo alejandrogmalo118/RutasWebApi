@@ -2,8 +2,8 @@
 {
     public class AutobusesClienteConfig
     {
-        public static string API_URL = @"https://webapirutas.azurewebsites.net/api/";
-        public static string RUTAS = "RutasAPI";
-        public static string CIUDADES = "CiudadesAPI";
+        public static string ApiUrl = @"https://webapirutas.azurewebsites.net/api/";
+        public static string Rutas = "RutasAPI";
+        public static string Ciudades = "CiudadesAPI";
     }
 }

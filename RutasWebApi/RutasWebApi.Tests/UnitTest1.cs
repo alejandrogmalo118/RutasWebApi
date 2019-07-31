@@ -11,28 +11,26 @@ namespace RutasWebApi.Tests
     {
         private Ciudad CrearCiudad(int id, string nombre)
         {
-            Ciudad ciudad = new Ciudad();
-            ciudad.Id = id;
-            ciudad.NombreCiudad = nombre;
+            var ciudad = new Ciudad {Id = id, NombreCiudad = nombre};
             return ciudad;
         }
 
         private Ruta CrearRuta(Ciudad ciudadO, Ciudad ciudadD, int km, double tiempo, double precio)
         {
-            Ruta ruta = new Ruta();
-            ruta.Ciudad = ciudadO;
-            ruta.Ciudad1 = ciudadD;
-            ruta.Km = km;
-            ruta.Tiempo = tiempo;
-            ruta.Precio = precio;
+            var ruta = new Ruta
+            {
+                Ciudad = ciudadO,
+                Ciudad1 = ciudadD,
+                Km = km,
+                Tiempo = tiempo,
+                Precio = precio
+            };
             return ruta;
         }
 
         private Nodo CrearNodo(int origen, int destino, double tiempo, int km)
         {
-            Nodo nodo = new Nodo(origen,destino);
-            nodo.CosteDecimal = tiempo;
-            nodo.CosteEntero = km;
+            Nodo nodo = new Nodo(origen, destino) {CosteDecimal = tiempo, CosteEntero = km};
             return nodo;
         }
 
@@ -42,10 +40,10 @@ namespace RutasWebApi.Tests
         {
             //Preparación
             //Acentos y mayúsculas para transformar el nombre de las ciudades
-            Ciudad ciudad = CrearCiudad(2, "león");
+            var ciudad = CrearCiudad(2, "león");
 
             //Actuación
-            string ciudad2Modificada = Utiles.ModificarNombreCiudad(ciudad.NombreCiudad);
+            var ciudad2Modificada = Utiles.ModificarNombreCiudad(ciudad.NombreCiudad);
 
             //Validación
             Assert.AreEqual(ciudad2Modificada, "LEON");
@@ -150,16 +148,11 @@ namespace RutasWebApi.Tests
             Ruta ruta1 = CrearRuta(madrid, zaragoza, 300, 3, 18);
             Ruta ruta2 = CrearRuta(zaragoza, lleida, 150, 2, 12);
             Ruta ruta3 = CrearRuta(lleida, tarragona, 90, 1.16, 9);
-            List<Ruta> rutaMadridTarragona1 = new List<Ruta>();
-            rutaMadridTarragona1.Add(ruta1);
-            rutaMadridTarragona1.Add(ruta2);
-            rutaMadridTarragona1.Add(ruta3);
+            List<Ruta> rutaMadridTarragona1 = new List<Ruta> {ruta1, ruta2, ruta3};
 
             Ruta ruta4 = CrearRuta(madrid, teruel, 350, 3.5, 23);
             Ruta ruta5 = CrearRuta(teruel, tarragona, 220, 2.33,20);
-            List<Ruta> rutaMadridTarragona2 = new List<Ruta>();
-            rutaMadridTarragona2.Add(ruta4);
-            rutaMadridTarragona2.Add(ruta5);
+            List<Ruta> rutaMadridTarragona2 = new List<Ruta> {ruta4, ruta5};
 
             //Actuación
             double kmRuta1 = 0, kmRuta2 = 0;
@@ -182,6 +175,7 @@ namespace RutasWebApi.Tests
             Assert.IsTrue(precioRuta1 < precioRuta2 && tiempoRuta2 < tiempoRuta1 && kmRuta1 < kmRuta2);
         }
 
+        [TestMethod]
         public void TestMethodNodosAlgoritmo()
         {
             //Preparación
@@ -198,12 +192,14 @@ namespace RutasWebApi.Tests
             Nodo nodo4 = CrearNodo(madrid.Id, teruel.Id, 3.5, 350);
             Nodo nodo5 = CrearNodo(teruel.Id, tarragona.Id, 2.33, 220);
 
-            List<Nodo> nodosRutas = new List<Nodo>();
-            nodosRutas.Add(nodo1);
-            nodosRutas.Add(nodo2);
-            nodosRutas.Add(nodo3);
-            nodosRutas.Add(nodo4);
-            nodosRutas.Add(nodo5);
+            List<Nodo> nodosRutas = new List<Nodo>
+            {
+                nodo1,
+                nodo2,
+                nodo3,
+                nodo4,
+                nodo5
+            };
 
             List<List<Nodo>> listaFinal = new List<List<Nodo>>();
             List<int> ciudadesExpandidas = new List<int>();

@@ -1,6 +1,4 @@
-﻿using RutasWebApi.Models.Cliente;
-using RutasWebApi.Models.Config;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
@@ -9,65 +7,65 @@ namespace RutasWebApi.Models.Repositorio
 {
     public class RepositorioGenerico<T> : IRepositorioGenerico<T> where T : class
     {
-        private readonly DBRutasEntities Context = null;
-        private readonly DbSet<T> Table = null;
+        private readonly DBRutasEntities _context;
+        private readonly DbSet<T> _table;
 
-        private bool Disposed = false;
+        private bool _disposed;
 
         public RepositorioGenerico()
         {
-            Context = new DBRutasEntities();
-            Table = Context.Set<T>();
+            _context = new DBRutasEntities();
+            _table = _context.Set<T>();
         }
 
-        public RepositorioGenerico(DBRutasEntities _context)
+        public RepositorioGenerico(DBRutasEntities context)
         {
-            Context = _context;
-            Table = _context.Set<T>();
+            this._context = context;
+            _table = context.Set<T>();
         }
 
         public async Task<IEnumerable<T>> ObtenerTodos()
         {
-            return await Table.ToListAsync();
+            return await _table.ToListAsync();
         }
 
         public async Task<T> ObtenerId(object id)
         {
-            return await Table.FindAsync(id);
+            return await _table.FindAsync(id);
         }
 
         public void Insertar(T obj)
         {
-            Table.Add(obj);
+            _table.Add(obj);
         }
 
         public void Modificar(T obj)
         {
-            Table.Attach(obj);
-            Context.Entry(obj).State = EntityState.Modified;
+            _table.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
         }
 
         public async Task Eliminar(object id)
         {
-            T Existing = await Table.FindAsync(id);
-            Table.Remove(Existing);
+            T existing = await _table.FindAsync(id);
+            _table.Remove(existing ?? throw new InvalidOperationException());
         }
 
         public async Task Save()
         {
-            await Context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!Disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    Context.Dispose();
+                    _context.Dispose();
                 }
             }
-            Disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()

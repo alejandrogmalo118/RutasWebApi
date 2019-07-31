@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using RutasWebApi.Controllers.Factory;
+﻿using RutasWebApi.Controllers.Factory;
 using RutasWebApi.Models;
 using RutasWebApi.Models.Utils;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace RutasWebApi.Controllers
 {
     public class HomeController : BaseController
     {
+        /// <summary>
+        /// Vista inicial en la cual se cargan los listados de ciudades y rutas desde el webservice,
+        /// y que posteriormente se guardan en la base de datos local.
+        /// Tambien comprueba si hay conexión a internet, si la hay recoge los datos del webservice y los almacena,
+        /// si no hay conexión, accede a la base de datos para obtener los listados.
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> Index()
         {
 
@@ -25,53 +29,35 @@ namespace RutasWebApi.Controllers
 
                 foreach (var c in Listas.CiudadesDisponibles)
                 {
-                    Ciudad ciudad = (await _repositorioC.ObtenerId(c.Id));
+                    Ciudad ciudad = (await RepositorioC.ObtenerId(c.Id));
+
                     if (ciudad == null)
                     {
-                        _repositorioC.Insertar(c);
+                        RepositorioC.Insertar(c);
                     }
                 }
 
                 foreach (var r in Listas.RutasDisponibles)
                 {
-                    Ruta ruta = await _repositorioR.ObtenerId(r.Id);
+                    Ruta ruta = await RepositorioR.ObtenerId(r.Id);
+
                     if (ruta == null)
                     {
-                        _repositorioR.Insertar(r);
+                        RepositorioR.Insertar(r);
                     }
                 }
 
-                await _repositorioC.Save();
-                await _repositorioR.Save();
+                await RepositorioC.Save();
+                await RepositorioR.Save();
             }
             else
             {
-                await ObtenerDatos();
+                Listas.CiudadesDisponibles = (await RepositorioC.ObtenerTodos()).ToList();
+                Listas.RutasDisponibles = (await RepositorioR.ObtenerTodos()).ToList();
             }
 
 
             return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-
-        private async Task ObtenerDatos()
-        {
-            Listas.CiudadesDisponibles = (await _repositorioC.ObtenerTodos()).ToList();
-            Listas.RutasDisponibles = (await _repositorioR.ObtenerTodos()).ToList();
         }
 
     }

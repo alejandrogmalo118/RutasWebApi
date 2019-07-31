@@ -1,16 +1,15 @@
 ﻿using RutasWebApi.Models;
 using RutasWebApi.Models.Cliente;
 using RutasWebApi.Models.Config;
-using System.Linq;
-using System.Threading.Tasks;
 using RutasWebApi.Models.ModelJSON;
+using System.Threading.Tasks;
 
 namespace RutasWebApi.Controllers.Factory
 {
     public class FactoriaCiudad: FactoriaDatos
     {
-        private int Id { get; set; }
-        private string NombreCiudad { get; set; }
+        private int Id { get; }
+        private string NombreCiudad { get; }
 
         public FactoriaCiudad()
         {
@@ -24,7 +23,7 @@ namespace RutasWebApi.Controllers.Factory
             CrearDato();
         }
 
-        public override void CrearDato()
+        public sealed override void CrearDato()
         {
             Ciudad nuevoDato = new Ciudad(Id, NombreCiudad);
             
@@ -35,13 +34,13 @@ namespace RutasWebApi.Controllers.Factory
 
         }
 
-        public async override Task CrearDatos()
+        public override async Task CrearDatos()
         {
-            var listaCiudades = await AutobusesCliente.LlamarAPI<CiudadJsonModel.CiudadModel>(AutobusesClienteConfig.CIUDADES);
+            var listaCiudades = await AutobusesCliente.LlamarApi<CiudadJsonModel.CiudadModel>(AutobusesClienteConfig.Ciudades);
 
             foreach (var c in listaCiudades)
             {
-                new FactoriaCiudad(c.Id, c.NombreCiudad);
+                var ciudad = new FactoriaCiudad(c.Id, c.NombreCiudad);
             }
         }
 

@@ -1,23 +1,19 @@
 ﻿using RutasWebApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using RutasWebApi.Models.Cliente;
-using System.Threading.Tasks;
 using RutasWebApi.Models.Config;
 using RutasWebApi.Models.ModelJSON;
+using System.Threading.Tasks;
 
 namespace RutasWebApi.Controllers.Factory
 {
     public class FactoriaRuta : FactoriaDatos
     {
-        private int Id { get; set; }
-        private int Origen { get; set; }
-        private int Destino { get; set; }
-        private double Km { get; set; }
-        private string Tiempo { get; set; }
-        private double Precio { get; set; }
+        private int Id { get; }
+        private int Origen { get; }
+        private int Destino { get; }
+        private double Km { get; }
+        private string Tiempo { get; }
+        private double Precio { get; }
 
         public FactoriaRuta()
         {
@@ -35,9 +31,9 @@ namespace RutasWebApi.Controllers.Factory
             CrearDato();
         }
 
-        public override void CrearDato()
+        public sealed override void CrearDato()
         {
-            Ruta nuevaRuta = new Ruta(Id, Origen, Destino, Km, Tiempo, Precio);
+            Ruta nuevaRuta = new Ruta(Id, Origen, Destino, Km, Precio);
 
             if (!Listas.CiudadesDisponibles.Count.Equals(0))
             {
@@ -64,11 +60,11 @@ namespace RutasWebApi.Controllers.Factory
 
         public override async Task CrearDatos()
         {
-            var listaRutas = await AutobusesCliente.LlamarAPI<RutaJsonModel.RutaModel>(AutobusesClienteConfig.RUTAS);
+            var listaRutas = await AutobusesCliente.LlamarApi<RutaJsonModel.RutaModel>(AutobusesClienteConfig.Rutas);
 
             foreach (var c in listaRutas)
             {
-                new FactoriaRuta(c.Id, c.Origen, c.Destino, c.Km, c.Tiempo, c.Precio);
+                var ruta = new FactoriaRuta(c.Id, c.Origen, c.Destino, c.Km, c.Tiempo, c.Precio);
             }
         }
     }

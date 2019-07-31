@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using RutasWebApi.Models;
 using System.Web.Mvc;
-using RutasWebApi.Models;
 
 namespace RutasWebApi.Controllers
 {
     public class CiudadController : BaseController
     {
 
+        /// <summary>
+        /// Vista con el listado de todas las ciudades.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View(Listas.CiudadesDisponibles);
@@ -16,7 +19,7 @@ namespace RutasWebApi.Controllers
         {
             if (disposing)
             {
-                _repositorioC.Dispose();
+                RepositorioC.Dispose();
             }
             base.Dispose(disposing);
         }

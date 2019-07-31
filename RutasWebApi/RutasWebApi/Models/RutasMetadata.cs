@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace RutasWebApi.Models
 {
     [MetadataType(typeof(RutasMetadata))]
     public partial class Ruta
     {
-        public double TiempoTransformado => Utils.Utiles.TransformarTiempoStringDouble(Tiempo.ToString());
+        public double TiempoTransformado => Utils.Utiles.TransformarTiempoStringDouble(Tiempo.ToString(CultureInfo.CurrentCulture));
 
         public Ruta()
         {
                 
         }
 
-        public Ruta(int id, int origen, int destino, double km, string tiempo, double precio) : base()
+        public Ruta(int id, int origen, int destino, double km, double precio)
         {
             Id = id;
             Origen = origen;

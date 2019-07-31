@@ -1,21 +1,27 @@
 ﻿using RutasWebApi.Models;
 using RutasWebApi.Models.Utils;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 
 namespace RutasWebApi.Controllers
 {
     public class RutaController : BaseController
     {
-
+        /// <summary>
+        /// Vista con el listado de todas las rutas disponibles.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View(Listas.RutasDisponibles);
         }
 
+        /// <summary>
+        /// Vista con dos combos para elegir una ciudad de origen y otra de destino
+        /// para calcular las rutas entre las ciudades elegidas.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult TodasRutas()
         {
             var CiudadesOrdenadas = Listas.CiudadesDisponibles.OrderBy(c => c.NombreCiudad);
@@ -26,10 +32,15 @@ namespace RutasWebApi.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Resultado de todas las rutas despues de elegir las ciudades de origen y destino.
+        /// </summary>
+        /// <param name="ruta">Origen, Destino</param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> TodasRutasResultado([Bind(Include = "Origen, Destino")] Ruta ruta)
+        public ActionResult TodasRutasResultado([Bind(Include = "Origen, Destino")] Ruta ruta)
         {
-            var listaFinalRutas = await Utiles.ListaFinalRutas(ruta, Listas.RutasDisponibles);
+            var listaFinalRutas = Utiles.ListaFinalRutas(ruta, Listas.RutasDisponibles);
 
             return View(listaFinalRutas);
         }
@@ -38,7 +49,7 @@ namespace RutasWebApi.Controllers
         {
             if (disposing)
             {
-                _repositorioR.Dispose();
+                RepositorioR.Dispose();
             }
             base.Dispose(disposing);
         }

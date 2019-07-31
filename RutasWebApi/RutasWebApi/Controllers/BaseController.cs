@@ -1,21 +1,18 @@
-﻿using System.Linq;
+﻿using RutasWebApi.Models;
 using RutasWebApi.Models.Repositorio;
 using System.Web.Mvc;
-using RutasWebApi.Models;
-using RutasWebApi.Controllers.Factory;
-using RutasWebApi.Models.Utils;
 
 namespace RutasWebApi.Controllers
 {
     public class BaseController : Controller
     {
-        protected RepositorioGenerico<Ciudad> _repositorioC;
-        protected RepositorioGenerico<Ruta> _repositorioR;
+        protected RepositorioGenerico<Ciudad> RepositorioC;
+        protected RepositorioGenerico<Ruta> RepositorioR;
 
         public BaseController()
         {
-            _repositorioC = new RepositorioGenerico<Ciudad>();
-            _repositorioR = new RepositorioGenerico<Ruta>();
+            RepositorioC = new RepositorioGenerico<Ciudad>();
+            RepositorioR = new RepositorioGenerico<Ruta>();
 
         }
 
